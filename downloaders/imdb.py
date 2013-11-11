@@ -3,7 +3,7 @@ from utils import *
 from movie import *
 
 def top():
-    page = parse("http://www.movies.com/chart/top")
+    page = parse("http://www.imdb.com/chart/top")
     imdb_movies = page.xpath(".//table//td[@class='posterColumn' or @class='titleColumn' or @class='ratingColumn']")
 
     movies = []

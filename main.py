@@ -16,9 +16,8 @@ def group(l, n = 2):
     return izip(*[iter(l)]*n)
 
 def filmweb():
-    URL = "http://www.filmweb.pl/rankings/film/world"
     movies = []
-    page = parse(URL)
+    page = parse("http://www.filmweb.pl/rankings/film/world")
     html_movies = page.xpath(".//td[@class='fInfo']")
 
     for idx, td in enumerate(html_movies):
@@ -31,11 +30,11 @@ def filmweb():
     return movies
 
 def imdb():
-    page = parse("http://www.imdb.com/chart/top")
-    imdb_movies = page.xpath(".//table//td[@class='posterColumn' or @class='titleColumn' or @class='ratingColumn']")
-
     movies = []
-    for idx, (x, y, z, yr) in enumerate(group(imdb_movies, 4)):
+    page = parse("http://www.imdb.com/chart/top")
+    html_movies = page.xpath(".//table//td[@class='posterColumn' or @class='titleColumn' or @class='ratingColumn']")
+
+    for idx, (x, y, z, yr) in enumerate(group(html_movies, 4)):
         title  = y.find('a').text_content()
         image  = x.find('.//img').get('src'),
         rating = z.find('.//strong').text_content()
@@ -56,5 +55,5 @@ def save(file_name, imdb_movies, filmweb_movies):
 
 
 if __name__ == "__main__":
-    file_name = "index.html"
-    save(file_name, imdb(), filmweb())
+    save("index.html", imdb(), filmweb())
+
